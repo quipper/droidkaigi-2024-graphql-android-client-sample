@@ -1,0 +1,39 @@
+type PostTag {
+    name: String!
+    posts: [Post!]!
+    count: Int!
+}
+
+type Post  {
+    id: ID!
+    title: String!
+    body: String!
+    tags: [PostTag!]!
+    publishedAt: String!
+    ranking: Int!
+    author: Author!
+    likeUsers: [User!]!
+    likeCount: Int!
+}
+
+interface User {
+    name: String!
+}
+
+type Author implements User {
+    id: ID!
+    name: String!
+    image: String!
+    posts: [Post!]!
+}
+
+type Viewer implements User {
+    name: String!
+}
+
+type Query {
+    post(id: ID!): Post
+    author(id: ID!): Author
+    posts(tags: [String!]): [Post!]!
+    authors: [Author!]!
+}

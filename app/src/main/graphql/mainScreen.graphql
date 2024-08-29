@@ -1,0 +1,31 @@
+query MainScreenQuery {
+    posts {
+        ...PostCardFragment
+    }
+}
+
+fragment PostCardFragment on Post {
+    author {
+        name
+    }
+    title
+    body
+}
+
+
+# ↓ 理想形ではないスキーマの場合
+query PostQuery {
+    posts {
+        title
+        body
+        author {
+            id
+        }
+    }
+}
+
+query AuthorQuery($authorId: ID!) {
+    author(id: $authorId) {
+        name
+    }
+}
