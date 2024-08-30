@@ -4,7 +4,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import jp.morux2.graphqlClientSample2024.compose.dummyContent
-import jp.morux2.graphqlClientSample2024.network.NoNetworkException
+import jp.morux2.graphqlClientSample2024.network.GraphQlServerException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -61,7 +61,7 @@ class MainViewModelTest {
 
     @Test
     fun エラーの場合はダイアログを表示すること() {
-        val exception = NoNetworkException()
+        val exception = GraphQlServerException(listOf(mockk(relaxed = true)))
         val viewModel = viewModelFactory(
             apolloWrapper = mockk {
                 every { fetchMainScreenData() } returns flow { throw exception }
