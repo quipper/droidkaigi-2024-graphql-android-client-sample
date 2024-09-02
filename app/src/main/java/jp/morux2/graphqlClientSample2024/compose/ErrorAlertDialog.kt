@@ -15,16 +15,12 @@ import jp.morux2.graphqlClientSample2024.network.NoNetworkException
 fun ErrorAlertDialog(
     throwable: Throwable,
     refech: () -> Unit,
-    dismiss: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = {},
         confirmButton = {
             TextButton(
-                onClick = {
-                    dismiss()
-                    refech()
-                }
+                onClick = refech
             ) {
                 Text("Retry")
             }
@@ -60,6 +56,5 @@ private fun ErrorAlertDialogPreview(
     ErrorAlertDialog(
         throwable = throwable,
         refech = {},
-        dismiss = {}
     )
 }

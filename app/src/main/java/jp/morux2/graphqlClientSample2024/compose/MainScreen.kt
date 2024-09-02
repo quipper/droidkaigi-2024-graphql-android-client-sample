@@ -36,7 +36,6 @@ fun MainScreen(
         modifier = Modifier.fillMaxSize(),
         viewState = viewState,
         refetch = viewModel::fetchContent,
-        dismissErrorDialog = viewModel::clearThrowable,
     )
 }
 
@@ -44,7 +43,6 @@ fun MainScreen(
 fun MainScreenContent(
     viewState: MainViewModel.ViewState,
     refetch: () -> Unit,
-    dismissErrorDialog: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(modifier = modifier) { contentPadding ->
@@ -69,7 +67,6 @@ fun MainScreenContent(
         if (viewState.throwable != null) {
             ErrorAlertDialog(
                 throwable = viewState.throwable,
-                dismiss = dismissErrorDialog,
                 refech = refetch,
             )
         }
@@ -94,7 +91,6 @@ private fun MainScreenPreview() {
             content = dummyContent
         ),
         refetch = {},
-        dismissErrorDialog = {},
     )
 }
 
