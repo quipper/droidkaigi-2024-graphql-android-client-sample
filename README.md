@@ -7,5 +7,5 @@ DroidKaigi2024 GraphQLの魅力を引き出すAndroidクライアント実装 �
 ```
 cd graphql-sample-server/
 npm install
-npm run
+npm start
 ```
