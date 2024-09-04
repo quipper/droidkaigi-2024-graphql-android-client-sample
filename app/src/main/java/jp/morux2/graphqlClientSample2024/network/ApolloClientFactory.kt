@@ -11,7 +11,11 @@ import com.apollographql.apollo3.interceptor.ApolloInterceptorChain
 import com.apollographql.apollo3.network.okHttpClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.Authenticator
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.Route
 import timber.log.Timber
 
 
@@ -22,19 +26,19 @@ object ApolloClientFactory {
     fun from(context: Context): ApolloClient {
         return ApolloClient.Builder()
             .okHttpClient(
-                OkHttpClient().newBuilder().addInterceptor { chain ->
-                    val response = chain.proceed(chain.request())
-                    if (response.code == 401) {
-                        // 認可エラーの場合
-                        // 本来はここでログアウト処理を実施する
-                        Timber.d("response: $response")
-                    }
-                    return@addInterceptor response
-                }.build()
+                OkHttpClient().newBuilder().authenticator(MyAuthenticator()).build()
             )
             .serverUrl(BASE_URL)
             .addInterceptor(ApolloNetworkConnectivityInterceptor(context))
             .build()
+    }
+}
+
+class MyAuthenticator : Authenticator {
+    override fun authenticate(route: Route?, response: Response): Request? {
+        // 本来はここでログアウト処理を実施する
+        Timber.d("response: $response")
+        return null
     }
 }
 
