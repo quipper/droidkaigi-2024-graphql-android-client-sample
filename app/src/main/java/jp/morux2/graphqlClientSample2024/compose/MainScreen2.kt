@@ -1,5 +1,3 @@
-@file:JvmName("MainScreenKt")
-
 package jp.morux2.graphqlClientSample2024.compose
 
 import androidx.compose.foundation.layout.Arrangement
@@ -31,11 +29,11 @@ import java.util.UUID
 fun MainScreen2(
     apolloClient: ApolloClient,
 ) {
-    val state by apolloClient.query(MainScreenQuery()).toState()
+    val mainScreenState by apolloClient.query(MainScreenQuery()).toState()
 
     MainScreenContent2(
         modifier = Modifier.fillMaxSize(),
-        mainScreenState = state,
+        mainScreenState = mainScreenState,
     )
 }
 
@@ -54,14 +52,23 @@ fun MainScreenContent2(
                 contentPadding = PaddingValues(vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // (省略) content を表示する
+                content.posts.forEach { item ->
+                    item {
+                        PostCard(
+                            modifier = Modifier.fillParentMaxWidth(),
+                            postCardFragment = item.postCardFragment,
+                        )
+                    }
+                }
             }
         }
+        // note : https://github.com/apollographql/apollo-kotlin/issues/5019
+        // 3系では exception をキャッチできない (NoNetworkException)
         if (mainScreenState?.hasErrors() == true || mainScreenState?.exception != null) {
             ErrorAlertDialog(
                 throwable = mainScreenState.exception?.cause
                     ?: GraphQlServerException(errors = mainScreenState.errors!!),
-                refech = {}, // refech が用意されていない
+                refech = {},
             )
         }
         if (mainScreenState == null) {
