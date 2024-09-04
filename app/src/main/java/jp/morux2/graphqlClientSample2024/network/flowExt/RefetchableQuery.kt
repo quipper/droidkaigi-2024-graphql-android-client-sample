@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onEach
 
-// 拡張関数を生やすことで, retry ブロックの囲み忘れを防ぐ
+// 拡張関数を生やすことで, remember ブロックの囲み忘れを防ぐ
 @Composable
 fun <T : Query.Data> ApolloClient.refetchableQuery(query: Query<T>): RefetchableQuery<T> {
-    // point : recomposition のたびに, RefetchableQuery (refechTrigger) が生成されてしまい意図しない挙動になる
+    // recomposition のたびに, RefetchableQuery (refechTrigger) が生成されてしまい意図しない挙動になる
     return remember {
         RefetchableQuery(
             apolloClient = this,
