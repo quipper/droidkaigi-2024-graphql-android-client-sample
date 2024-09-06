@@ -34,9 +34,11 @@ object ApolloClientFactory {
     }
 }
 
+// https://square.github.io/okhttp/recipes/#handling-authentication-kt-java
+// 401 Unauthorized が返ってきたときに呼び出される
 class MyAuthenticator : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
-        // 本来はここでログアウト処理を実施する
+        // 本来はここで, ヘッダに認証情報を追加してリクエストをやり直したり, 認証情報を付与できない場合はログアウト等のコールバック処理を呼び出す
         Timber.d("response: $response")
         return null
     }
