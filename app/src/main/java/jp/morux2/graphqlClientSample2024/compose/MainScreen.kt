@@ -67,7 +67,7 @@ fun MainScreenContent(
         if (viewState.throwable != null) {
             ErrorAlertDialog(
                 throwable = viewState.throwable,
-                refech = refetch,
+                refetch = refetch,
             )
         }
         if (viewState.isLoading) {
